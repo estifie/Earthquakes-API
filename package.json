@@ -1,0 +1,26 @@
+{
+	"name": "earthquakes-api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.ts",
+	"scripts": {
+		"build": "tsc",
+		"start:dev": "nodemon index.ts",
+		"start": "ts-node index.ts"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"express": "^4.19.2",
+		"express-validator": "^7.1.0",
+		"mongoose": "^8.4.0",
+		"nodemon": "^3.1.0",
+		"winston": "^3.13.0",
+		"xml2js": "^0.6.2"
+	},
+	"devDependencies": {
+		"@types/cors": "^2.8.17",
+		"@types/express": "^4.17.21",
+		"@types/xml2js": "^0.4.14"
+	}
+}
