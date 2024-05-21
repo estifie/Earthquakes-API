@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.MAXIMUM_LIMIT = exports.DEFAULT_LIMIT = exports.DEFAULT_PAGE = exports.DETAILED_URL = exports.FEED_URL = exports.FEED_PATH = exports.FEED_BASE = void 0;
+exports.FEED_BASE = "https://earthquake.usgs.gov";
+exports.FEED_PATH = "/earthquakes/feed/v1.0/summary/all_day.geojson";
+exports.FEED_URL = `${exports.FEED_BASE}${exports.FEED_PATH}`;
+exports.DETAILED_URL = `${exports.FEED_BASE}/earthquakes/feed/v1.0/detail/`;
+exports.DEFAULT_PAGE = 1;
+exports.DEFAULT_LIMIT = 10;
+exports.MAXIMUM_LIMIT = 100;
