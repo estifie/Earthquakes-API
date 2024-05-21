@@ -2,16 +2,17 @@
 	"name": "earthquakes-api",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.ts",
+	"main": "dist/index.js",
 	"scripts": {
 		"build": "rimraf dsit && tsc",
 		"deploy-build": "git add dist",
-		"start:dev": "nodemon index.ts",
-		"start": "ts-node index.ts"
+		"start:dev": "nodemon dist/index.js",
+		"start": "node dist/index.js"
 	},
 	"author": "",
 	"license": "Apache-2.0",
 	"dependencies": {
+		"cors": "^2.8.5",
 		"express": "^4.19.2",
 		"express-validator": "^7.1.0",
 		"mongoose": "^8.4.0",
