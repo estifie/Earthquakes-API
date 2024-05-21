@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.ts",
 	"scripts": {
-		"build": "tsc",
+		"build": "rimraf dsit && tsc",
+		"deploy-build": "git add dist",
 		"start:dev": "nodemon index.ts",
 		"start": "ts-node index.ts"
 	},
@@ -22,5 +23,9 @@
 		"@types/cors": "^2.8.17",
 		"@types/express": "^4.17.21",
 		"@types/xml2js": "^0.4.14"
-	}
+	},
+	"pre-commit": [
+		"build",
+		"deploy-build"
+	]
 }
