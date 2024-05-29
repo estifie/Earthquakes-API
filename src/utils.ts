@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DEFAULT_LIMIT, DEFAULT_PAGE, MAXIMUM_LIMIT } from "./config/constants";
+import { PAGINATION } from "./config/constants";
 import { PlaceInformation } from "./types";
 
 export const safeParseFloat = (value: any) => {
@@ -48,8 +48,8 @@ export const addressFindByLatLon = async (lat: number, lon: number): Promise<Pla
 };
 
 export const calculatePagination = (desiredPage: string | undefined, desiredLimit: string | undefined) => {
-	const page = Math.max(safeParseFloat(desiredPage) || DEFAULT_PAGE, DEFAULT_PAGE);
-	const limit = Math.min(safeParseFloat(desiredLimit) || DEFAULT_LIMIT, MAXIMUM_LIMIT);
+	const page = Math.max(safeParseFloat(desiredPage) || PAGINATION.DEFAULT_PAGE, PAGINATION.DEFAULT_PAGE);
+	const limit = Math.min(safeParseFloat(desiredLimit) || PAGINATION.DEFAULT_LIMIT, PAGINATION.MAXIMUM_LIMIT);
 
 	return {
 		page,
