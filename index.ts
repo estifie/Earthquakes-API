@@ -4,6 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import logger from "./logger";
 import { initScheduler } from "./scheduler";
+import { authenticateRapidAPI } from "./src/middlewares";
 import generalRouter from "./src/routes/general.route";
 dotenv.config();
 
@@ -14,6 +15,8 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+app.use(authenticateRapidAPI);
 
 app.use("/api/v1", generalRouter);
 
