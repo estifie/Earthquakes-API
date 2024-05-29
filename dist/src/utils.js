@@ -56,8 +56,8 @@ const addressFindByLatLon = (lat, lon) => __awaiter(void 0, void 0, void 0, func
 });
 exports.addressFindByLatLon = addressFindByLatLon;
 const calculatePagination = (desiredPage, desiredLimit) => {
-    const page = Math.max((0, exports.safeParseFloat)(desiredPage) || constants_1.DEFAULT_PAGE, constants_1.DEFAULT_PAGE);
-    const limit = Math.min((0, exports.safeParseFloat)(desiredLimit) || constants_1.DEFAULT_LIMIT, constants_1.MAXIMUM_LIMIT);
+    const page = Math.max((0, exports.safeParseFloat)(desiredPage) || constants_1.PAGINATION.DEFAULT_PAGE, constants_1.PAGINATION.DEFAULT_PAGE);
+    const limit = Math.min((0, exports.safeParseFloat)(desiredLimit) || constants_1.PAGINATION.DEFAULT_LIMIT, constants_1.PAGINATION.MAXIMUM_LIMIT);
     return {
         page,
         limit,

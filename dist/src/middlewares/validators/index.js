@@ -1,0 +1,11 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateGetEarthquakesWithTime = exports.validateGetEarthquakesWithMagnitude = exports.validateGetEarthquakeByCode = exports.validateGetAllEarthquakes = exports.validateFetchEarthquakes = exports.validateDeleteEarthquake = exports.validateCreateEarthquake = void 0;
+var earthquakes_1 = require("./earthquakes");
+Object.defineProperty(exports, "validateCreateEarthquake", { enumerable: true, get: function () { return earthquakes_1.validateCreateEarthquake; } });
+Object.defineProperty(exports, "validateDeleteEarthquake", { enumerable: true, get: function () { return earthquakes_1.validateDeleteEarthquake; } });
+Object.defineProperty(exports, "validateFetchEarthquakes", { enumerable: true, get: function () { return earthquakes_1.validateFetchEarthquakes; } });
+Object.defineProperty(exports, "validateGetAllEarthquakes", { enumerable: true, get: function () { return earthquakes_1.validateGetAllEarthquakes; } });
+Object.defineProperty(exports, "validateGetEarthquakeByCode", { enumerable: true, get: function () { return earthquakes_1.validateGetEarthquakeByCode; } });
+Object.defineProperty(exports, "validateGetEarthquakesWithMagnitude", { enumerable: true, get: function () { return earthquakes_1.validateGetEarthquakesWithMagnitude; } });
+Object.defineProperty(exports, "validateGetEarthquakesWithTime", { enumerable: true, get: function () { return earthquakes_1.validateGetEarthquakesWithTime; } });

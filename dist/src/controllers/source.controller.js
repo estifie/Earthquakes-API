@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getSourceById = exports.getAllSources = void 0;
 const source_service_1 = __importDefault(require("../services/source.service"));
 const response_type_1 = require("../types/response.type");
 const responseBuilder = new response_type_1.ResponseBuilder();
@@ -27,6 +28,7 @@ const getAllSources = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).json(responseBuilder.errorWithoutData(error.message));
     }
 });
+exports.getAllSources = getAllSources;
 const getSourceById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     try {
@@ -40,4 +42,4 @@ const getSourceById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         res.status(500).json(responseBuilder.errorWithoutData(error.message));
     }
 });
-exports.default = { getAllSources, getSourceById };
+exports.getSourceById = getSourceById;

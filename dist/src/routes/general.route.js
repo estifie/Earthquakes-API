@@ -9,6 +9,6 @@ const health_route_1 = __importDefault(require("./health.route"));
 const source_route_1 = __importDefault(require("./source.route"));
 const router = (0, express_1.Router)();
 router.use("/earthquakes", earthquake_route_1.default);
-router.use("/health", health_route_1.default);
+router.use("/ping", health_route_1.default);
 router.use("/sources", source_route_1.default);
 exports.default = router;

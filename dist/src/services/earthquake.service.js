@@ -16,17 +16,66 @@ const axios_1 = __importDefault(require("axios"));
 const logger_1 = __importDefault(require("../../logger"));
 const constants_1 = require("../config/constants");
 const errorMessages_1 = require("../config/errorMessages");
+const distance_model_1 = require("../models/distance.model");
 const earthquake_model_1 = __importDefault(require("../models/earthquake.model"));
+const time_type_1 = require("../types/time.type");
 const utils_1 = require("../utils");
-const getEarthquakes = (showDeleted, page, limit) => __awaiter(void 0, void 0, void 0, function* () {
+const getLatestEarthquake = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const earthquakes = yield earthquake_model_1.default.find(showDeleted ? {} : { deleted: false })
-            .sort({ "time.value": -1 })
-            .skip((page - 1) * limit)
-            .limit(limit);
+        const earthquake = yield earthquake_model_1.default.findOne({ deleted: false }).sort({ "time.value": -1 });
+        if (!earthquake) {
+            throw new Error(errorMessages_1.ERROR_MESSAGES.ERR_EARTHQUAKE_NOT_FOUND);
+        }
+        return earthquake;
+    }
+    catch (error) {
+        throw new Error(errorMessages_1.ERROR_MESSAGES.ERR_EARTHQUAKE_NOT_FOUND);
+    }
+});
+const getEarthquakeByCode = (code) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const earthquake = yield earthquake_model_1.default.findOne({ code, deleted: false });
+        if (!earthquake) {
+            throw new Error(errorMessages_1.ERROR_MESSAGES.ERR_EARTHQUAKE_NOT_FOUND);
+        }
+        return earthquake;
+    }
+    catch (error) {
+        throw new Error(errorMessages_1.ERROR_MESSAGES.ERR_EARTHQUAKE_NOT_FOUND);
+    }
+});
+const getEarthquakes = (data) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const timeNormalized = data.time ? (0, time_type_1.convertTimeToMilliseconds)(data.time) : null;
+        const magnitudeNormalized = (0, utils_1.safeParseFloat)(data.magnitude) || 0;
+        const timeAgo = timeNormalized
+            ? new Date(Date.now() - timeNormalized).toISOString()
+            : new Date(Date.now() - (0, time_type_1.convertTimeToMilliseconds)("24h")).toISOString();
+        let query = Object.assign(Object.assign({ "time.value": { $gte: timeAgo }, "magnitude.value": { $gte: magnitudeNormalized } }, (data.showDeleted
+            ? {}
+            : {
+                deleted: false,
+            })), (data.distance != null && data.unit != null
+            ? {
+                "coordinates.raw": {
+                    $geoWithin: {
+                        $centerSphere: [
+                            [data.longitude, data.latitude],
+                            new distance_model_1.Distance(data.distance, data.unit).toEarthRadian(),
+                        ],
+                    },
+                },
+            }
+            : {}));
+        console.log(query);
+        const earthquakes = yield earthquake_model_1.default.find(query)
+            .sort({ "magnitude.value": -1, "time.value": -1 })
+            .skip((data.page - 1) * data.limit)
+            .limit(data.limit);
         return earthquakes;
     }
     catch (error) {
+        console.log(error);
         throw new Error(errorMessages_1.ERROR_MESSAGES.ERR_EARTHQUAKES_FETCH);
     }
 });
@@ -132,7 +181,7 @@ const parseEarthquakes = (earthquakes, forceUpdate, soft) => __awaiter(void 0, v
         catch (error) {
             continue;
         }
-        yield delay(1000);
+        yield delay(300);
     }
 });
 const parseEarthquake = (earthquake, forceUpdate) => __awaiter(void 0, void 0, void 0, function* () {
@@ -154,6 +203,7 @@ const parseEarthquake = (earthquake, forceUpdate) => __awaiter(void 0, void 0, v
             value: new Date(properties.time).toISOString(),
             uncertainty: (0, utils_1.safeParseFloat)(otherDetails["eventtime-error"]),
         },
+        epochTime: properties.time,
         source: properties.net,
         status: properties.status,
         coordinates: {
@@ -164,6 +214,10 @@ const parseEarthquake = (earthquake, forceUpdate) => __awaiter(void 0, void 0, v
             longitude: {
                 value: coordinates[0],
                 uncertainty: (0, utils_1.safeParseFloat)(otherDetails["longitude-error"]),
+            },
+            raw: {
+                type: "Point",
+                coordinates: [coordinates[0], coordinates[1]],
             },
         },
         depth: {
@@ -186,4 +240,7 @@ exports.default = {
     getEarthquakes,
     updateEarthquake,
     softFetchEarthquakes,
+    hardFetchEarthquakes,
+    getEarthquakeByCode,
+    getLatestEarthquake,
 };
