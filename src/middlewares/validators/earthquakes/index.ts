@@ -25,21 +25,22 @@ export const validateFetchEarthquakes = [
 ];
 
 /* Delete Earthquake Validator */
-export const validateDeleteEarthquake = [query("id").notEmpty().isString()];
+export const validateDeleteEarthquake = [query("code", "Code must be included").notEmpty().isString()];
 
 /* Get Earthquake By Code Validator */
-export const validateGetEarthquakeByCode = [query("code").notEmpty().isString()];
+export const validateGetEarthquakeByCode = [query("code", "Code must be included").notEmpty().isString()];
 
 /* Get All Earthquakes Validator */
+// also write error messages
 export const validateGetAllEarthquakes = [
-	query("page").optional().isNumeric(),
-	query("limit").optional().isNumeric(),
-	query("time").optional().isString(),
-	query("magnitude").optional().isString(),
-	query("longitude").optional().isString(),
-	query("latitude").optional().isString(),
-	query("distance").optional().isInt(),
-	query("unit")
+	query("page", "Page must be a number").optional().isNumeric(),
+	query("limit", "Limit must be a number").optional().isNumeric(),
+	query("time", "Time must be a string, i.e. 1h").optional().isString(),
+	query("magnitude", "Magnitude must be a number, i.e. 3").optional().isNumeric(),
+	query("longitude", "Longitude must be a string").optional().isString(),
+	query("latitude", "Latitude must be a string").optional().isString(),
+	query("distance", "Distance must be a number").optional().isInt(),
+	query("unit", "Unit musgt be one of the following: m, km, ft, yd, mi")
 		.optional()
 		.isString()
 		.isIn([
