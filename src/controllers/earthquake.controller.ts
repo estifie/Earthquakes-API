@@ -32,7 +32,8 @@ export const getEarthquakeByCode = async (req: Request, res: Response) => {
 export const handleGetEarthquakes = async (req: Request, res: Response, time?: Time, magnitude?: string) => {
 	try {
 		const result = validationResult(req);
-		if (result.isEmpty()) {
+
+		if (!result.isEmpty()) {
 			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
 		}
 
@@ -73,8 +74,9 @@ export const handleGetEarthquakes = async (req: Request, res: Response, time?: T
 export const getAllEarthquakes = async (req: Request, res: Response) => {
 	try {
 		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
+
+		if (!result.isEmpty()) {
+			return res.status(400).json(responseBuilder.error(result.array(), ERROR_MESSAGES.ERR_MISSING_FIELDS));
 		}
 
 		const { time, magnitude } = req.query;
@@ -86,11 +88,6 @@ export const getAllEarthquakes = async (req: Request, res: Response) => {
 
 export const getEarthquakes30Minutes = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { magnitude } = req.query;
 		await handleGetEarthquakes(req, res, "30m", magnitude as string);
 	} catch (error: any) {
@@ -100,11 +97,6 @@ export const getEarthquakes30Minutes = async (req: Request, res: Response) => {
 
 export const getEarthquakes1Hour = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { magnitude } = req.query;
 		await handleGetEarthquakes(req, res, "1h", magnitude as string);
 	} catch (error: any) {
@@ -114,11 +106,6 @@ export const getEarthquakes1Hour = async (req: Request, res: Response) => {
 
 export const getEarthquakes2Hours = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { magnitude } = req.query;
 		await handleGetEarthquakes(req, res, "2h", magnitude as string);
 	} catch (error: any) {
@@ -128,11 +115,6 @@ export const getEarthquakes2Hours = async (req: Request, res: Response) => {
 
 export const getEarthquakes4Hours = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { magnitude } = req.query;
 		await handleGetEarthquakes(req, res, "4h", magnitude as string);
 	} catch (error: any) {
@@ -142,11 +124,6 @@ export const getEarthquakes4Hours = async (req: Request, res: Response) => {
 
 export const getEarthquakes12Hours = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { magnitude } = req.query;
 		await handleGetEarthquakes(req, res, "12h", magnitude as string);
 	} catch (error: any) {
@@ -156,11 +133,6 @@ export const getEarthquakes12Hours = async (req: Request, res: Response) => {
 
 export const getEarthquakes24Hours = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { magnitude } = req.query;
 		await handleGetEarthquakes(req, res, "24h", magnitude as string);
 	} catch (error: any) {
@@ -170,11 +142,6 @@ export const getEarthquakes24Hours = async (req: Request, res: Response) => {
 
 export const getEarthquakes2_5Magnitude = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { time } = req.query;
 		await handleGetEarthquakes(req, res, time as Time, "2.5");
 	} catch (error: any) {
@@ -184,11 +151,6 @@ export const getEarthquakes2_5Magnitude = async (req: Request, res: Response) =>
 
 export const getEarthquakes4_5Magnitude = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { time } = req.query;
 		await handleGetEarthquakes(req, res, time as Time, "4.5");
 	} catch (error: any) {
@@ -198,11 +160,6 @@ export const getEarthquakes4_5Magnitude = async (req: Request, res: Response) =>
 
 export const getEarthquakes6Magnitude = async (req: Request, res: Response) => {
 	try {
-		const result = validationResult(req);
-		if (result.isEmpty()) {
-			return res.status(400).json({ error: ERROR_MESSAGES.ERR_MISSING_FIELDS });
-		}
-
 		const { time } = req.query;
 		await handleGetEarthquakes(req, res, time as Time, "6");
 	} catch (error: any) {
