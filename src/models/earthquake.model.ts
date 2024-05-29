@@ -103,6 +103,10 @@ const EarthquakeSchema = new mongoose.Schema({
 			required: false,
 		},
 	},
+	epochTime: {
+		type: Number,
+		required: true,
+	},
 	coordinates: {
 		latitude: {
 			value: {
@@ -122,6 +126,18 @@ const EarthquakeSchema = new mongoose.Schema({
 			uncertainty: {
 				type: Number,
 				required: false,
+			},
+		},
+		raw: {
+			coordinates: {
+				type: [Number], // [longitude, latitude]
+				required: true,
+			},
+			type: {
+				type: String, // 'Point'
+				enum: ["Point"],
+				required: true,
+				default: "Point",
 			},
 		},
 	},
@@ -169,6 +185,7 @@ const EarthquakeSchema = new mongoose.Schema({
 });
 
 EarthquakeSchema.index({ magnitude: 1, location: 1, time: 1, coordinates: 1, depth: 1 }, { unique: true });
+EarthquakeSchema.index({ "coordinates.raw.coordinates": "2dsphere" });
 
 EarthquakeSchema.set("toJSON", {
 	virtuals: true,
@@ -190,6 +207,7 @@ EarthquakeSchema.set("toJSON", {
 				value: returnedObject.time.value,
 				uncertainty: returnedObject.time.uncertainty,
 			},
+			epochTime: returnedObject.epochTime,
 			coordinates: {
 				latitude: {
 					value: returnedObject.coordinates.latitude.value,
