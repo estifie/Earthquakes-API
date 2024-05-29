@@ -14,6 +14,7 @@ type Earthquake = {
 		uncertainty?: number | null;
 		confidence?: number | null;
 	};
+	epochTime: number;
 	status?: string;
 	source?: string;
 	coordinates: {
@@ -26,6 +27,10 @@ type Earthquake = {
 			value: number | null;
 			uncertainty?: number | null;
 			confidence?: number | null;
+		};
+		raw: {
+			type: string;
+			coordinates: number[];
 		};
 	};
 	depth: {
