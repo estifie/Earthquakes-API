@@ -24,7 +24,7 @@ class ResponseBuilder {
             return this.build("error", data, message);
         };
         this.errorWithoutData = (message) => {
-            return this.build("error", null, message);
+            return this.build("error", undefined, message);
         };
     }
 }
