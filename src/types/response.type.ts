@@ -38,7 +38,7 @@ export class ResponseBuilder {
 	};
 
 	public errorWithoutData = (message?: string): APIResponse => {
-		return this.build("error", null, message);
+		return this.build("error", undefined, message);
 	};
 }
 
