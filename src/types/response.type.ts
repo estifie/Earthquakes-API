@@ -30,7 +30,7 @@ export class ResponseBuilder {
 	};
 
 	public successWithoutData = (message?: string): APIResponse => {
-		return this.build("success", null, message);
+		return this.build("success", undefined, message);
 	};
 
 	public error = (data?: object | string | number | null, message?: string): APIResponse => {

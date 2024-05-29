@@ -4,7 +4,6 @@ import express from "express";
 import mongoose from "mongoose";
 import logger from "./logger";
 import { initScheduler } from "./scheduler";
-import { authenticateRapidAPI } from "./src/middlewares";
 import generalRouter from "./src/routes/general.route";
 dotenv.config();
 
@@ -14,9 +13,8 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/earthq
 const app = express();
 
 app.use(express.json());
-app.use(cors());
 
-app.use(authenticateRapidAPI);
+app.use(cors());
 
 app.use("/api/v1", generalRouter);
 
