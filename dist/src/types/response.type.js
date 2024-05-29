@@ -18,7 +18,7 @@ class ResponseBuilder {
             return this.build("success", data, undefined);
         };
         this.successWithoutData = (message) => {
-            return this.build("success", null, message);
+            return this.build("success", undefined, message);
         };
         this.error = (data, message) => {
             return this.build("error", data, message);

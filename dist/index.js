@@ -9,7 +9,6 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const logger_1 = __importDefault(require("./logger"));
 const scheduler_1 = require("./scheduler");
-const middlewares_1 = require("./src/middlewares");
 const general_route_1 = __importDefault(require("./src/routes/general.route"));
 dotenv_1.default.config();
 const PORT = process.env.PORT || 8080;
@@ -17,7 +16,6 @@ const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/earthq
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
-app.use(middlewares_1.authenticateRapidAPI);
 app.use("/api/v1", general_route_1.default);
 mongoose_1.default
     .connect(MONGODB_URI)
