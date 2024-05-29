@@ -7,7 +7,7 @@ import sourceRouter from "./source.route";
 const router = Router();
 
 router.use("/earthquakes", earthquakeRouter);
-router.use("/health", healthRouter);
+router.use("/ping", healthRouter);
 router.use("/sources", sourceRouter);
 
 export default router;
