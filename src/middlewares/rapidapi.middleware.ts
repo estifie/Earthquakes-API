@@ -2,8 +2,12 @@ import dotenv from "dotenv";
 import { NextFunction, Request, Response } from "express";
 dotenv.config();
 
+const RAPID_API_KEY = process.env.RAPID_API_KEY;
+
 export const authenticateRapidAPI = (req: Request, res: Response, next: NextFunction) => {
-	console.log(req.headers);
+	if (!RAPID_API_KEY) {
+		next();
+	}
 
 	const rapidApiKey = req.headers["x-rapidapi-proxy-secret"];
 
