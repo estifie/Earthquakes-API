@@ -2,20 +2,78 @@ import axios from "axios";
 import logger from "../../logger";
 import { FEED_URL } from "../config/constants";
 import { ERROR_MESSAGES } from "../config/errorMessages";
+import { EarthquakeParamsDto } from "../dto";
+import { Distance } from "../models/distance.model";
 import Earthquake from "../models/earthquake.model";
-import { Earthquake as EarthquakeType } from "../types";
-import { EarthquakeProperties } from "../types/earthquake.type";
+import { EarthquakeProperties, Earthquake as EarthquakeType } from "../types";
+import { Time, convertTimeToMilliseconds } from "../types/time.type";
 import { addressFindByLatLon, safeParseFloat } from "../utils";
 
-const getEarthquakes = async (showDeleted: boolean, page: number, limit: number) => {
+const getLatestEarthquake = async () => {
 	try {
-		const earthquakes = await Earthquake.find(showDeleted ? {} : { deleted: false })
-			.sort({ "time.value": -1 })
-			.skip((page - 1) * limit)
-			.limit(limit);
+		const earthquake = await Earthquake.findOne({ deleted: false }).sort({ "time.value": -1 });
+		if (!earthquake) {
+			throw new Error(ERROR_MESSAGES.ERR_EARTHQUAKE_NOT_FOUND);
+		}
+		return earthquake;
+	} catch (error) {
+		throw new Error(ERROR_MESSAGES.ERR_EARTHQUAKE_NOT_FOUND);
+	}
+};
+
+const getEarthquakeByCode = async (code: string) => {
+	try {
+		const earthquake = await Earthquake.findOne({ code, deleted: false });
+		if (!earthquake) {
+			throw new Error(ERROR_MESSAGES.ERR_EARTHQUAKE_NOT_FOUND);
+		}
+		return earthquake;
+	} catch (error) {
+		throw new Error(ERROR_MESSAGES.ERR_EARTHQUAKE_NOT_FOUND);
+	}
+};
+
+const getEarthquakes = async (data: EarthquakeParamsDto) => {
+	try {
+		const timeNormalized = data.time ? convertTimeToMilliseconds(data.time as Time) : null;
+		const magnitudeNormalized = safeParseFloat(data.magnitude) || 0;
+
+		const timeAgo = timeNormalized
+			? new Date(Date.now() - timeNormalized).toISOString()
+			: new Date(Date.now() - convertTimeToMilliseconds("24h")).toISOString();
+
+		let query = {
+			"time.value": { $gte: timeAgo },
+			"magnitude.value": { $gte: magnitudeNormalized },
+			...(data.showDeleted
+				? {}
+				: {
+						deleted: false,
+				  }),
+			...(data.distance != null && data.unit != null
+				? {
+						"coordinates.raw": {
+							$geoWithin: {
+								$centerSphere: [
+									[data.longitude, data.latitude],
+									new Distance(data.distance, data.unit).toEarthRadian(),
+								],
+							},
+						},
+				  }
+				: {}),
+		};
+
+		console.log(query);
+
+		const earthquakes = await Earthquake.find(query)
+			.sort({ "magnitude.value": -1, "time.value": -1 })
+			.skip((data.page - 1) * data.limit)
+			.limit(data.limit);
 
 		return earthquakes;
 	} catch (error) {
+		console.log(error);
 		throw new Error(ERROR_MESSAGES.ERR_EARTHQUAKES_FETCH);
 	}
 };
@@ -135,7 +193,7 @@ const parseEarthquakes = async (earthquakes: any, forceUpdate: boolean, soft: bo
 		} catch (error) {
 			continue;
 		}
-		await delay(1000);
+		await delay(300);
 	}
 };
 
@@ -161,6 +219,7 @@ const parseEarthquake = async (earthquake: any, forceUpdate: boolean) => {
 			value: new Date(properties.time).toISOString(),
 			uncertainty: safeParseFloat(otherDetails["eventtime-error"]),
 		},
+		epochTime: properties.time,
 		source: properties.net,
 		status: properties.status,
 		coordinates: {
@@ -171,6 +230,10 @@ const parseEarthquake = async (earthquake: any, forceUpdate: boolean) => {
 			longitude: {
 				value: coordinates[0],
 				uncertainty: safeParseFloat(otherDetails["longitude-error"]),
+			},
+			raw: {
+				type: "Point",
+				coordinates: [coordinates[0], coordinates[1]],
 			},
 		},
 		depth: {
@@ -195,4 +258,7 @@ export default {
 	getEarthquakes,
 	updateEarthquake,
 	softFetchEarthquakes,
+	hardFetchEarthquakes,
+	getEarthquakeByCode,
+	getLatestEarthquake,
 };
