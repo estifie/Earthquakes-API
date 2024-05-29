@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import express from "express";
 import mongoose from "mongoose";
 import logger from "./logger";
+import { initScheduler } from "./scheduler";
 import generalRouter from "./src/routes/general.route";
 dotenv.config();
 
@@ -20,9 +21,11 @@ mongoose
 	.connect(MONGODB_URI)
 	.then(() => {
 		logger.info("Connected to MongoDB");
+
+		initScheduler();
 	})
 	.catch((error) => {
-		logger.error("Error connecting to MongoDB: ", error.message);
+		logger.error("Error connecting to MongoDB: " + error.message);
 	});
 
 app.listen(PORT, () => {
