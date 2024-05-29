@@ -5,7 +5,7 @@ import { ResponseBuilder } from "../types/response.type";
 
 const responseBuilder = new ResponseBuilder();
 
-const getAllSources = async (req: Request, res: Response) => {
+export const getAllSources = async (req: Request, res: Response) => {
 	try {
 		const sources = await sourceService.getAllSources();
 		res.json(
@@ -19,7 +19,7 @@ const getAllSources = async (req: Request, res: Response) => {
 	}
 };
 
-const getSourceById = async (req: Request, res: Response) => {
+export const getSourceById = async (req: Request, res: Response) => {
 	const { id } = req.params;
 
 	try {
@@ -34,5 +34,3 @@ const getSourceById = async (req: Request, res: Response) => {
 		res.status(500).json(responseBuilder.errorWithoutData(error.message));
 	}
 };
-
-export default { getAllSources, getSourceById };
