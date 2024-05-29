@@ -24,19 +24,20 @@ exports.validateFetchEarthquakes = [
     (0, express_validator_1.query)("soft").optional().isBoolean(),
 ];
 /* Delete Earthquake Validator */
-exports.validateDeleteEarthquake = [(0, express_validator_1.query)("id").notEmpty().isString()];
+exports.validateDeleteEarthquake = [(0, express_validator_1.query)("code", "Code must be included").notEmpty().isString()];
 /* Get Earthquake By Code Validator */
-exports.validateGetEarthquakeByCode = [(0, express_validator_1.query)("code").notEmpty().isString()];
+exports.validateGetEarthquakeByCode = [(0, express_validator_1.query)("code", "Code must be included").notEmpty().isString()];
 /* Get All Earthquakes Validator */
+// also write error messages
 exports.validateGetAllEarthquakes = [
-    (0, express_validator_1.query)("page").optional().isNumeric(),
-    (0, express_validator_1.query)("limit").optional().isNumeric(),
-    (0, express_validator_1.query)("time").optional().isString(),
-    (0, express_validator_1.query)("magnitude").optional().isString(),
-    (0, express_validator_1.query)("longitude").optional().isString(),
-    (0, express_validator_1.query)("latitude").optional().isString(),
-    (0, express_validator_1.query)("distance").optional().isInt(),
-    (0, express_validator_1.query)("unit")
+    (0, express_validator_1.query)("page", "Page must be a number").optional().isNumeric(),
+    (0, express_validator_1.query)("limit", "Limit must be a number").optional().isNumeric(),
+    (0, express_validator_1.query)("time", "Time must be a string, i.e. 1h").optional().isString(),
+    (0, express_validator_1.query)("magnitude", "Magnitude must be a number, i.e. 3").optional().isNumeric(),
+    (0, express_validator_1.query)("longitude", "Longitude must be a string").optional().isString(),
+    (0, express_validator_1.query)("latitude", "Latitude must be a string").optional().isString(),
+    (0, express_validator_1.query)("distance", "Distance must be a number").optional().isInt(),
+    (0, express_validator_1.query)("unit", "Unit musgt be one of the following: m, km, ft, yd, mi")
         .optional()
         .isString()
         .isIn([

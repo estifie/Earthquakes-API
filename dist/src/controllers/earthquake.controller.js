@@ -39,7 +39,7 @@ exports.getEarthquakeByCode = getEarthquakeByCode;
 const handleGetEarthquakes = (req, res, time, magnitude) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
+        if (!result.isEmpty()) {
             return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
         }
         const { page, limit } = (0, utils_1.calculatePagination)(req.query.page, req.query.limit);
@@ -74,8 +74,8 @@ exports.handleGetEarthquakes = handleGetEarthquakes;
 const getAllEarthquakes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
+        if (!result.isEmpty()) {
+            return res.status(400).json(responseBuilder.error(result.array(), errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS));
         }
         const { time, magnitude } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, time, magnitude);
@@ -87,10 +87,6 @@ const getAllEarthquakes = (req, res) => __awaiter(void 0, void 0, void 0, functi
 exports.getAllEarthquakes = getAllEarthquakes;
 const getEarthquakes30Minutes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { magnitude } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, "30m", magnitude);
     }
@@ -101,10 +97,6 @@ const getEarthquakes30Minutes = (req, res) => __awaiter(void 0, void 0, void 0, 
 exports.getEarthquakes30Minutes = getEarthquakes30Minutes;
 const getEarthquakes1Hour = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { magnitude } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, "1h", magnitude);
     }
@@ -115,10 +107,6 @@ const getEarthquakes1Hour = (req, res) => __awaiter(void 0, void 0, void 0, func
 exports.getEarthquakes1Hour = getEarthquakes1Hour;
 const getEarthquakes2Hours = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { magnitude } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, "2h", magnitude);
     }
@@ -129,10 +117,6 @@ const getEarthquakes2Hours = (req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.getEarthquakes2Hours = getEarthquakes2Hours;
 const getEarthquakes4Hours = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { magnitude } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, "4h", magnitude);
     }
@@ -143,10 +127,6 @@ const getEarthquakes4Hours = (req, res) => __awaiter(void 0, void 0, void 0, fun
 exports.getEarthquakes4Hours = getEarthquakes4Hours;
 const getEarthquakes12Hours = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { magnitude } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, "12h", magnitude);
     }
@@ -157,10 +137,6 @@ const getEarthquakes12Hours = (req, res) => __awaiter(void 0, void 0, void 0, fu
 exports.getEarthquakes12Hours = getEarthquakes12Hours;
 const getEarthquakes24Hours = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { magnitude } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, "24h", magnitude);
     }
@@ -171,10 +147,6 @@ const getEarthquakes24Hours = (req, res) => __awaiter(void 0, void 0, void 0, fu
 exports.getEarthquakes24Hours = getEarthquakes24Hours;
 const getEarthquakes2_5Magnitude = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { time } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, time, "2.5");
     }
@@ -185,10 +157,6 @@ const getEarthquakes2_5Magnitude = (req, res) => __awaiter(void 0, void 0, void 
 exports.getEarthquakes2_5Magnitude = getEarthquakes2_5Magnitude;
 const getEarthquakes4_5Magnitude = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { time } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, time, "4.5");
     }
@@ -199,10 +167,6 @@ const getEarthquakes4_5Magnitude = (req, res) => __awaiter(void 0, void 0, void 
 exports.getEarthquakes4_5Magnitude = getEarthquakes4_5Magnitude;
 const getEarthquakes6Magnitude = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = (0, express_validator_1.validationResult)(req);
-        if (result.isEmpty()) {
-            return res.status(400).json({ error: errorMessages_1.ERROR_MESSAGES.ERR_MISSING_FIELDS });
-        }
         const { time } = req.query;
         yield (0, exports.handleGetEarthquakes)(req, res, time, "6");
     }

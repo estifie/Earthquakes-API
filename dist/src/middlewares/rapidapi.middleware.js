@@ -10,6 +10,7 @@ const RAPID_API_KEY = process.env.RAPID_API_KEY;
 const authenticateRapidAPI = (req, res, next) => {
     if (!RAPID_API_KEY) {
         next();
+        return;
     }
     const rapidApiKey = req.headers["x-rapidapi-proxy-secret"];
     if (!rapidApiKey || rapidApiKey !== process.env.RAPID_API_KEY) {
