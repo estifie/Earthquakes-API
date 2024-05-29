@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import logger from "./logger";
 import { initScheduler } from "./scheduler";
 import generalRouter from "./src/routes/general.route";
+import { ResponseBuilder } from "./src/types/response.type";
 dotenv.config();
 
 const PORT = process.env.PORT || 8080;
@@ -17,6 +18,11 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/api/v1", generalRouter);
+
+const responseBuilder = new ResponseBuilder();
+app.use((req, res) => {
+	res.json(responseBuilder.errorWithoutData("Route not found"));
+});
 
 mongoose
 	.connect(MONGODB_URI)
