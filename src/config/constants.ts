@@ -13,7 +13,7 @@ export const PAGINATION = {
 	MAXIMUM_LIMIT: 100,
 };
 export const SCHEDULER = {
-	FETCH: false,
+	FETCH: true,
 	INITIAL_FETCH: true,
 	INITIAL_FETCH_DELAY: 5 * 60 * 1000,
 	FETCH_INTERVAL_CRON: "*/10 * * * * *",
