@@ -26,7 +26,13 @@ cd Earthquakes-API
 npm install
 ```
 
-4. Start the API server
+4. Copy the `.env.example` file to `.env` and update the environment variables
+
+```bash
+cp .env.example .env
+```
+
+5. Start the API server
 
 ```bash
 npm run start
